@@ -1,23 +1,44 @@
-from tkinter import Label,Button,StringVar,Tk
+from tkinter import *
+from tkinter import ttk
 from string import ascii_letters,digits,punctuation
 from random import choices,shuffle
 
-def generatePassword(length = 8):
-    global output
-    list_of_characters = f'{ascii_letters}{digits}{punctuation}'
 
-    list_of_characters = list(list_of_characters)
-    shuffle(list_of_characters)
+class App():
+    """
+    docstring
+    """
+    def __init__(self):
+        self.root = Tk()
+        self.root.title('Password Generator')
 
-    password = choices(list_of_characters, k=length)
-    password = ''.join(password)
-    output.set(password)
+        self.length = ttk.Entry(self.root,text = 'length')
+        self.length.grid(row = 0,column = 1)
+        self.length.focus()
+        self.generatedPassword = ttk.Entry(self.root)
+        self.generatedPassword.grid(row = 2,column = 0,columnspan = 3,sticky = 'e w')
 
-root = Tk()
-root.title('Password Generator')
-output = StringVar()
+        Label(self.root,text='Length:').grid(row=0,column=0)
+        Button(self.root,text='Generate password',command = lambda: self.generatePassword()).grid(row=1,column=0,columnspan=2)
 
-Button(root,text='Generate password',command = generatePassword).grid(row=0,column=0)
-Label(root,textvariable=output).grid(row=1,column=0,columnspan=3)
+        self.root.mainloop()
+    
+    def generatePassword(self):
+        try:
+            l = int(self.length.get())
+        except Exception:
+            print('not length found')
+            l = 8
+        list_of_characters = f'{ascii_letters}{digits}'
 
-root.mainloop()
+        list_of_characters = list(list_of_characters)
+        shuffle(list_of_characters)
+
+        password = choices(list_of_characters, k=l)
+        password = ''.join(password)
+        self.generatedPassword.delete(0,END)
+        self.generatedPassword.insert(0,password)
+        print(password)
+
+
+App()
