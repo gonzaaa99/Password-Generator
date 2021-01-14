@@ -4,11 +4,14 @@ from string import ascii_letters,digits,punctuation
 from random import choices,shuffle
 
 
-class App():
+class PasswordGenerator():
     """
-    docstring
+    Desktop App to generate random passwords with a simple interface.
     """
     def __init__(self):
+        """
+        Initializes the Tkinter interface
+        """
         self.root = Tk()
         self.root.title('Password Generator')
 
@@ -24,12 +27,14 @@ class App():
         self.root.mainloop()
     
     def generatePassword(self):
+        """
+        Generates a random password with an specific length 
+        """
         try:
             l = int(self.length.get())
         except Exception:
-            print('not length found')
             l = 8
-        list_of_characters = f'{ascii_letters}{digits}'
+        list_of_characters = f'{ascii_letters}{digits}{punctuation}'
 
         list_of_characters = list(list_of_characters)
         shuffle(list_of_characters)
@@ -41,4 +46,4 @@ class App():
         print(password)
 
 
-App()
+PasswordGenerator()
